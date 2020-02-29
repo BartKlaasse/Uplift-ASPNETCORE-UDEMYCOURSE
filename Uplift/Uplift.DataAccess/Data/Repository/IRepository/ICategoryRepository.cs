@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Uplift.DataAccess.Data.IRepository;
 using Uplift.Models;
 
-namespace Uplift.DataAccess.Data.IRepository
+namespace Uplift.DataAccess.Data.Repository.IRepository
 {
-    interface ICategoryRepository : IRepository<Category>
+    public interface ICategoryRepository : IRepository<Category>
     {
         IEnumerable<SelectListItem> GetCategoryListForDropDown();
 
