@@ -21,5 +21,26 @@ namespace Uplift.Controllers
         {
             return View();
         }
+
+        #region API Calls
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            return Json(new { data = _unitOfWOrk.Category.GetAll() });
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var objFromDb = _unitOfWOrk.Category.Get(id);
+            if (objFromDb == null)
+            {
+                return Json(new { success = false, message = "error while deleting category" });
+            }
+            _unitOfWOrk.Category.Remove(objFromDb);
+            _unitOfWOrk.Save();
+            return Json(new { success = true, message = "Deleting successful" });
+        }
+        #endregion
     }
 }
