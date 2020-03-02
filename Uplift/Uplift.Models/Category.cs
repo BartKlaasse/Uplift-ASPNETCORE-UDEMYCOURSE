@@ -18,5 +18,6 @@ namespace Uplift.Models
         [Required]
         [Display(Name = "Display Order")]
         public string DisplayOrder { get; set; }
+        public string Test { get; set; }
     }
 }
