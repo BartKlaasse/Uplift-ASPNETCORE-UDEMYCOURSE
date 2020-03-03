@@ -38,6 +38,26 @@ namespace Uplift.Controllers
             return View(category);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                if (category.Id == 0)
+                {
+                    _unitOfWOrk.Category.Add(category);
+                }
+                else
+                {
+                    _unitOfWOrk.Category.Update(category);
+                }
+                _unitOfWOrk.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+        }
+
         #region API Calls
         [HttpGet]
         public IActionResult GetAll()
