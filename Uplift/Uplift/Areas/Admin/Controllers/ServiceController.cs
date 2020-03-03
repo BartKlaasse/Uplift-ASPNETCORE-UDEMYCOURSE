@@ -70,9 +70,41 @@ namespace Uplift.Controllers
                     ServiceVM.Service.ImageUrl = @"images\services\" + fileName + extension;
                     _unitOfWOrk.Service.Add(ServiceVM.Service);
                 }
+                else
+                {
+                    //Edit service
+
+                    var serviceFromDb = _unitOfWOrk.Service.Get(ServiceVM.Service.Id);
+                    if (files.Count > 0)
+                    {
+                        string fileName = Guid.NewGuid().ToString();
+                        var uploads = Path.Combine(webRootPath, @"images\services");
+                        var extension_new = Path.GetExtension(files[0].FileName);
+
+                        var imagePath = Path.Combine(webRootPath, serviceFromDb.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+                        using(var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension_new), FileMode.Create))
+                        {
+                            files[0].CopyTo(fileStreams);
+                        }
+
+                        ServiceVM.Service.ImageUrl = @"images\services\" + fileName + extension_new;
+                    }
+                    else
+                    {
+                        ServiceVM.Service.ImageUrl = serviceFromDb.ImageUrl;
+                    }
+                    _unitOfWOrk.Service.Update(ServiceVM.Service);
+                }
+                _unitOfWOrk.Save();
+
+                return RedirectToAction(nameof(Index));
             }
 
-            return View();
+            return View(ServiceVM);
         }
 
         #region API Calls
