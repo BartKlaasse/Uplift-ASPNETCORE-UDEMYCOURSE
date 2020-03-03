@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Uplift.DataAccess.Data.IRepository;
 using Uplift.Models;
+using Uplift.Models.ViewModels;
 
 namespace Uplift.Controllers
 {
@@ -25,6 +26,21 @@ namespace Uplift.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Upsert(int? id)
+        {
+            ServiceViewModel serviceVM = new ServiceViewModel()
+            {
+                Service = new Models.Service(),
+                CategoryList = _unitOfWOrk.Category.GetCategoryListForDropDown(),
+                FrequencyList = _unitOfWOrk.Frequency.GetFrequencyListForDropDown()
+            };
+            if (id != null)
+            {
+                serviceVM.Service = _unitOfWOrk.Service.Get(id.GetValueOrDefault());
+            }
+            return View(serviceVM);
         }
 
         #region API Calls
