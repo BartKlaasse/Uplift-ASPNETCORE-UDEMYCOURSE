@@ -36,3 +36,33 @@ function loadDataTable() {
     width: "100%"
   });
 }
+
+function Delete(url) {
+  swal(
+    {
+      title: "are you sure you want to delete this?",
+      text: "this action cannot be undone",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Delete",
+      closeOnConfirm: true
+    },
+    function() {
+      $.ajax({
+        type: "DELETE",
+        url: url,
+        success: function(data) {
+          if (data.success) {
+            toastr.success(data.message);
+            $("#tblData")
+              .DataTable()
+              .ajax.reload();
+          } else {
+            toastr.error(data.message);
+          }
+        }
+      });
+    }
+  );
+}
