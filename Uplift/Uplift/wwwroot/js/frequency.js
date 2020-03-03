@@ -40,7 +40,7 @@ function loadDataTable() {
 function Delete(url) {
   swal(
     {
-      title: "are you sure you want to delete this?",
+      title: "are you sure you want to delete this frequency?",
       text: "this action cannot be undone",
       type: "warning",
       showCancelButton: true,
