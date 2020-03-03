@@ -106,7 +106,7 @@ namespace Uplift.Controllers
             else
             {
                 ServiceVM.CategoryList = _unitOfWOrk.Category.GetCategoryListForDropDown();
-                ServiceVM.FrequencyList = _unitOfWOrk.Frequency.GetFrequencyListForDropDown ();
+                ServiceVM.FrequencyList = _unitOfWOrk.Frequency.GetFrequencyListForDropDown();
                 return View(ServiceVM);
             }
         }
