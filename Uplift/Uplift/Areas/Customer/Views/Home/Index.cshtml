@@ -1,4 +1,8 @@
 ﻿@model Uplift.Models.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 @foreach(var category in Model.CategoryList.OrderBy(o => o.DisplayOrder))
 {

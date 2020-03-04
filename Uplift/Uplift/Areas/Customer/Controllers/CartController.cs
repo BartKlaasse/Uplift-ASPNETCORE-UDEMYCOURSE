@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Uplift.DataAccess.Data.IRepository;
 using Uplift.DataAccess.Data.Repository;
 using Uplift.Extensions;
 using Uplift.Models;
@@ -14,10 +15,10 @@ namespace Uplift.Areas.Customer.Controllers
     [Area("Customer")]
     public class CartController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         [BindProperty]
         public CartViewModel CartVM { get; set; }
-        public CartController(UnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             CartVM = new CartViewModel()
