@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Uplift.DataAccess.Data.IRepository;
+using Uplift.Models.ViewModels;
 using Uplift.Utility;
 
 namespace Uplift.Areas.Admin.Controllers
@@ -20,6 +21,17 @@ namespace Uplift.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Details(int id)
+        {
+            OrderViewModel OrderVM = new OrderViewModel()
+            {
+                OrderHeader = _unitOfWork.OrderHeader.Get(id),
+                OrderDetails = _unitOfWork.OrderDetails.GetAll(filter: o => o.OrderHeaderId == id)
+            };
+
+            return View(OrderVM);
         }
 
         #region Api Calls
