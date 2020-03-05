@@ -100,6 +100,11 @@ namespace Uplift.Areas.Customer.Controllers
             return RedirectToAction("OrderConfirmation", "Cart", new { id = CartVM.OrderHeader.Id });
         }
 
+        public IActionResult OrderConfirmation(int id)
+        {
+            return View(id);
+        }
+
         public IActionResult Remove(int serviceId)
         {
             List<int> sessionList = new List<int>();
