@@ -36,11 +36,11 @@
                 </td>
                 <td>
                     @if(item.LockoutEnd == null || item.LockoutEnd < DateTime.Now){ <a
-                        class="btn btn-success text-white" asp-action="Lock" asp-route-id="@item.Id">
+                        class="btn btn-success text-white" style="width:50%;" asp-action="Lock" asp-route-id="@item.Id">
                         <i class="fas fa-lock-open"></i>
                         </a>
                         }else{
-                        <a class="btn btn-danger text-white" asp-action="Unlock" asp-route-id="@item.Id">
+                        <a class="btn btn-danger text-white" style="width:50%;" asp-action="Unlock" asp-route-id="@item.Id">
                             <i class="fas fa-lock"></i>
                         </a>
                         }
