@@ -5,10 +5,10 @@ $(document).ready(function() {
   if (url.includes("approved")) {
     loadDataTable("GetAllApprovedOrders");
   } else {
-    if (url.includes("all")) {
-      loadDataTable("GetAllOrders");
-    } else {
+    if (url.includes("pending")) {
       loadDataTable("GetAllPendingOrders");
+    } else {
+      loadDataTable("GetAllOrders");
     }
   }
 });
@@ -22,10 +22,10 @@ function loadDataTable(url) {
     },
     columns: [
       { data: "name", width: "20%" },
-      { data: "PhoneNumber", width: "20%" },
-      { data: "Email", width: "15%" },
-      { data: "ServiceCount", width: "15%" },
-      { data: "Status", width: "15%" },
+      { data: "phoneNumber", width: "20%" },
+      { data: "email", width: "15%" },
+      { data: "serviceCount", width: "15%" },
+      { data: "status", width: "15%" },
       {
         data: "id",
         render: function(data) {

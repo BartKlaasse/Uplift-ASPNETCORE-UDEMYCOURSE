@@ -1,6 +1,23 @@
 @using Uplift.Utility
 @{
-ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var status = Context.Request.Query["status"];
+    var approved = "text-primary";
+    var pending = "text-primary";
+    var all = "text-primary";
+
+    if(status == "approved"){
+        approved = "active text-white";
+    }else{
+        if(status == "pending"){
+            pending = "active text-white";
+        }else{
+            all = "active text-white";
+        }
+    }
 }
 
 <div class="border backgroundWhite p-3">
@@ -11,13 +28,13 @@ ViewData["Title"] = "Index";
         <div class="p-2">
             <ul class="list-group list-group-horizontal-sm">
                 <a style="text-decoration:none;" asp-controller="Order" asp-route-status="pending" asp-action="Index">
-                    <li class="list-group-item">Pending</li>
+                    <li class="list-group-item @pending">Pending</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-route-status="approved" asp-action="Index">
-                    <li class="list-group-item">Approved</li>
+                    <li class="list-group-item @approved">Approved</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-route-status="all" asp-action="Index">
-                    <li class="list-group-item">All</li>
+                    <li class="list-group-item @all">All</li>
                 </a>
             </ul>
         </div>
@@ -27,7 +44,7 @@ ViewData["Title"] = "Index";
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Phone</th>
+                <th>PhoneNumber</th>
                 <th>Email</th>
                 <th>Count</th>
                 <th>Status</th>
@@ -38,5 +55,5 @@ ViewData["Title"] = "Index";
 </div>
 
 @section Scripts{
-    <script src="~/js/orders.js"></script>
+<script src="~/js/orders.js"></script>
 }
