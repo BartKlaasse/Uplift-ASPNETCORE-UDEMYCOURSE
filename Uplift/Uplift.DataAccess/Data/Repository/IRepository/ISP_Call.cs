@@ -13,6 +13,6 @@ namespace Uplift.DataAccess.Data.Repository.IRepository
         IEnumerable<T> ReturnList<T>(string procedureName, DynamicParameters param = null);
 
         void ExecuteWithoutReturn(string procedureName, DynamicParameters param = null);
-        void ExecuteReturnScalar<T>(string procedureName, DynamicParameters param = null);
+        T ExecuteReturnScalar<T>(string procedureName, DynamicParameters param = null);
     }
 }

@@ -53,6 +53,5 @@ namespace Uplift.DataAccess.Data.Repository
         {
             _db.Dispose();
         }
-
     }
 }
