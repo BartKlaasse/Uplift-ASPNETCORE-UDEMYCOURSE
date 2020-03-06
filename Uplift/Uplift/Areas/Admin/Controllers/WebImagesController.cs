@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -27,40 +28,61 @@ namespace Uplift.Controllers
             return View();
         }
 
-        // public IActionResult Upsert(int? id)
-        // {
-        //     Category category = new Category();
-        //     if (id == null)
-        //     {
-        //         return View(category);
-        //     }
-        //     category = _unitOfWOrk.Category.Get(id.GetValueOrDefault());
-        //     if (category == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     return View(category);
-        // }
+        public IActionResult Upsert(int? id)
+        {
+            WebImages imageObj = new WebImages();
+            if (id == null)
+            {
+                return View(imageObj);
+            }
+            imageObj = _db.WebImages.SingleOrDefault(m => m.Id == id);
+            if (imageObj == null)
+            {
+                return NotFound();
+            }
+            return View(imageObj);
+        }
 
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public IActionResult Upsert(Category category)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         if (category.Id == 0)
-        //         {
-        //             _unitOfWOrk.Category.Add(category);
-        //         }
-        //         else
-        //         {
-        //             _unitOfWOrk.Category.Update(category);
-        //         }
-        //         _unitOfWOrk.Save();
-        //         return RedirectToAction(nameof(Index));
-        //     }
-        //     return View(category);
-        // }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert(int id, WebImages imageObj)
+        {
+            if (ModelState.IsValid)
+            {
+                var files = HttpContext.Request.Form.Files;
+                if (files.Count > 0)
+                {
+                    byte[] p1 = null;
+                    using(var fs1 = files[0].OpenReadStream())
+                    {
+                        using(var ms1 = new MemoryStream())
+                        {
+                            fs1.CopyTo(ms1);
+                            p1 = ms1.ToArray();
+                        }
+                    }
+                    imageObj.Picture = p1;
+                }
+
+                if (imageObj.Id == 0)
+                {
+                    _db.WebImages.Add(imageObj);
+                }
+                else
+                {
+                    var imageFromDb = _db.WebImages.Where(c => c.Id == id).FirstOrDefault();
+
+                    imageFromDb.Name = imageObj.Name;
+                    if (files.Count > 0)
+                    {
+                        imageFromDb.Picture = imageObj.Picture;
+                    }
+                }
+                _db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(imageObj);
+        }
 
         #region API Calls
         [HttpGet]
