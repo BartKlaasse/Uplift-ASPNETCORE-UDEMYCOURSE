@@ -35,10 +35,13 @@ namespace Uplift.Controllers
             {
                 return View(imageObj);
             }
-            imageObj = _db.WebImages.SingleOrDefault(m => m.Id == id);
-            if (imageObj == null)
+            else
             {
-                return NotFound();
+                imageObj = _db.WebImages.SingleOrDefault(m => m.Id == id);
+                if (imageObj == null)
+                {
+                    return NotFound();
+                }
             }
             return View(imageObj);
         }
@@ -95,12 +98,12 @@ namespace Uplift.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var objFromDb = _db.Category.Find(id);
+            var objFromDb = _db.WebImages.Find(id);
             if (objFromDb == null)
             {
-                return Json(new { success = false, message = "error while deleting category" });
+                return Json(new { success = false, message = "error while deleting WebImages" });
             }
-            _db.Category.Remove(objFromDb);
+            _db.WebImages.Remove(objFromDb);
             _db.SaveChanges();
             return Json(new { success = true, message = "Deleting successful" });
         }
