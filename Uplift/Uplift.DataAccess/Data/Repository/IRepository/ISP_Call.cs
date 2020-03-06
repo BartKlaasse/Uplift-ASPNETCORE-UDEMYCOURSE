@@ -8,7 +8,7 @@ using Uplift.Models;
 
 namespace Uplift.DataAccess.Data.Repository.IRepository
 {
-    public interface IStoredProcRepository : IDisposable
+    public interface ISP_Call : IDisposable
     {
         IEnumerable<T> ReturnList<T>(string procedureName, DynamicParameters param = null);
 
