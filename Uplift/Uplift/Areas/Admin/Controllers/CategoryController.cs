@@ -14,13 +14,13 @@ namespace Uplift.Controllers
     [Area("Admin")]
     public class CategoryController : Controller
     {
-
         private readonly IUnitOfWork _unitOfWOrk;
 
         public CategoryController(IUnitOfWork unitOfWork)
         {
             _unitOfWOrk = unitOfWork;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -62,11 +62,13 @@ namespace Uplift.Controllers
         }
 
         #region API Calls
+
         [HttpGet]
         public IActionResult GetAll()
         {
-            // return Json(new { data = _unitOfWOrk.Category.GetAll() });
-            return Json(new { data = _unitOfWOrk.SP_Call.ReturnList<Category>(SD.usp_GetAllCategory, null) });
+            return Json(new { data = _unitOfWOrk.Category.GetAll() });
+            //stored procedures are not working with my free azure account
+            //return Json(new { data = _unitOfWOrk.SP_Call.ReturnList<Category>(SD.usp_GetAllCategory, null) });
         }
 
         [HttpDelete]
@@ -81,6 +83,7 @@ namespace Uplift.Controllers
             _unitOfWOrk.Save();
             return Json(new { success = true, message = "Deleting successful" });
         }
-        #endregion
+
+        #endregion API Calls
     }
 }
