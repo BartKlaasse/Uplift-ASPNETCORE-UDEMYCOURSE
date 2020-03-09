@@ -36,7 +36,18 @@ namespace Uplift.DataAccess.Data.Initializer
             }
             if (_db.Roles.Any(r => r.Name == SD.Admin)) return;
 
-            _roleManager.Roles
+            _roleManager.CreateAsync(new IdentityRole(SD.Manager)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(SD.Admin)).GetAwaiter().GetResult();
+
+            _userManager.CreateAsync(new IdentityUser
+            {
+                UserName = "admin@admin.com",
+                    Email = "admin@admin.com",
+                    EmailConfirmed = true
+            }, "Welkom123!").GetAwaiter().GetResult();
+
+            IdentityUser user = _db.Users.Where(u => u.Email == "admin@admin.com").FirstOrDefault();
+            _userManager.AddToRoleAsync(user, SD.Admin).GetAwaiter().GetResult();
         }
     }
 }
