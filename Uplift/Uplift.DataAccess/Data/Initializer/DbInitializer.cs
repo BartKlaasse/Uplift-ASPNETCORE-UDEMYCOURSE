@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Uplift.Models;
 using Uplift.Utility;
 
 namespace Uplift.DataAccess.Data.Initializer
@@ -39,14 +40,15 @@ namespace Uplift.DataAccess.Data.Initializer
             _roleManager.CreateAsync(new IdentityRole(SD.Manager)).GetAwaiter().GetResult();
             _roleManager.CreateAsync(new IdentityRole(SD.Admin)).GetAwaiter().GetResult();
 
-            _userManager.CreateAsync(new IdentityUser
+            _userManager.CreateAsync(new ApplicationUser
             {
                 UserName = "admin@admin.com",
                     Email = "admin@admin.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    Name = "Admin account"
             }, "Welkom123!").GetAwaiter().GetResult();
 
-            IdentityUser user = _db.Users.Where(u => u.Email == "admin@admin.com").FirstOrDefault();
+            ApplicationUser user = _db.ApplicationUser.Where(u => u.Email == "admin@admin.com").FirstOrDefault();
             _userManager.AddToRoleAsync(user, SD.Admin).GetAwaiter().GetResult();
         }
     }

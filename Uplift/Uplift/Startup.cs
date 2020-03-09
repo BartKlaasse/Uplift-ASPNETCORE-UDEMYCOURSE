@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Uplift.DataAccess.Data;
+using Uplift.DataAccess.Data.Initializer;
 using Uplift.DataAccess.Data.IRepository;
 using Uplift.DataAccess.Data.Repository;
 using Uplift.Utility;
@@ -41,6 +42,7 @@ namespace Uplift
             services.AddRazorPages();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddSession(options =>
             {
@@ -57,7 +59,7 @@ namespace Uplift
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInit)
         {
             if (env.IsDevelopment())
             {
@@ -78,6 +80,7 @@ namespace Uplift
 
             app.UseAuthentication();
             app.UseAuthorization();
+            dbInit.Initialize();
 
             app.UseEndpoints(endpoints =>
             {
